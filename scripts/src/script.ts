@@ -56,7 +56,6 @@ function findColor(a:number){ //returns: black, red
                 cardNumbers[i] = cards[i+((a-1)*13)];
             }
         }
-
         return cardNumbers;
     } else{
         return 0;
