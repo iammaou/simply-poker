@@ -34,6 +34,7 @@ function randomCard(){
 
 let hand = [randomCard(),randomCard()];
 let dealer = [randomCard(),randomCard(),randomCard(),randomCard(),randomCard()];
+let dealerActive = [dealer[0], dealer[1], dealer[2]];
 let opponent = [randomCard(), randomCard()];
 
 d1.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[0]}.png`;
@@ -48,27 +49,19 @@ h2.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${hand[1]}.png`;
 // o1.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${opponent[0]}.png`;
 // o2.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${opponent[1]}.png`;
 
-function checkAttr(searchingFor:number, array:number[]){ //returns: kings, queens, jacks, 10-2 and aces
+function findAttr(searchingFor:number){ //returns: kings, queens, jacks, 10-2 and aces
     let cardNumbers = [];
     
     if(searchingFor<=12){
         for(let i=0; i<start.length; i++){ //finds the cards that we are checking for
             cardNumbers[i] = start[i] + searchingFor;
         }
-
-        for(let i=0;i<cardNumbers.length;i++){ //checks if the array we put in has the cards we found beforehand and if it does imidiatly return true
-            for(let j=0;j<array.length;j++){
-                if(cardNumbers[i]===array[j]){
-                    return true;
-                }
-                return false;
-            }
-        }
+        return cardNumbers;
     } 
     return [];
 }
 
-function checkType(searchingFor:number){ //returns: spades, hearts, clubs, diamonds
+function findType(searchingFor:number){ //returns: spades, hearts, clubs, diamonds
     let cardNumbers = [];
 
     if(searchingFor<=4){
@@ -80,7 +73,7 @@ function checkType(searchingFor:number){ //returns: spades, hearts, clubs, diamo
     return [];
 }
 
-function checkColor(searchingFor:number){ //returns: black, red
+function findColor(searchingFor:number){ //returns: black, red
     let cardNumbers = [];
     
     if(searchingFor==1 || searchingFor==2){
@@ -97,16 +90,20 @@ function checkColor(searchingFor:number){ //returns: black, red
     return [];
 }
 
-// for(let i=0; i<3; i++){
-//     if(findAttr(i).includes(hand[0 || 1]) || findAttr(i).includes(dealer[0 || 1 || 2])){
-//         value.textContent = 'High Card';
-//     }
-// }
+function checkAttr(findArray:number[], checkingArray:number[]){
+    for(let i=0;i<findArray.length;i++){ //checks if the array we put in has the cards we found beforehand and if it does imidiatly return true
+        for(let j=0;j<checkingArray.length;j++){
+            if(checkingArray[j]==findArray[i]){
+                return true;
+            }
+        }
+    }
+    return false;
+}
 
-checkAttr(0, hand);
-checkAttr(1, hand);
-checkAttr(2, hand);
-
-checkAttr(0, dealer);
-checkAttr(1, dealer);
-checkAttr(2, dealer);
+if( checkAttr(findAttr(0), hand)==true || checkAttr(findAttr(0), dealerActive)==true ||
+    checkAttr(findAttr(1), hand)==true || checkAttr(findAttr(1), dealerActive)==true ||
+    checkAttr(findAttr(2), hand)==true || checkAttr(findAttr(2), dealerActive)==true
+){
+    value.textContent = 'High Card';
+}

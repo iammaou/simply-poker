@@ -26,6 +26,7 @@ function randomCard() {
 }
 let hand = [randomCard(), randomCard()];
 let dealer = [randomCard(), randomCard(), randomCard(), randomCard(), randomCard()];
+let dealerActive = [dealer[0], dealer[1], dealer[2]];
 let opponent = [randomCard(), randomCard()];
 d1.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[0]}.png`;
 d2.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[1]}.png`;
@@ -34,24 +35,17 @@ d4.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[3]}.png`;
 d5.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[4]}.png`;
 h1.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${hand[0]}.png`;
 h2.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${hand[1]}.png`;
-function checkAttr(searchingFor, array) {
+function findAttr(searchingFor) {
     let cardNumbers = [];
     if (searchingFor <= 12) {
         for (let i = 0; i < start.length; i++) {
             cardNumbers[i] = start[i] + searchingFor;
         }
-        for (let i = 0; i < cardNumbers.length; i++) {
-            for (let j = 0; j < array.length; j++) {
-                if (cardNumbers[i] === array[j]) {
-                    return true;
-                }
-                return false;
-            }
-        }
+        return cardNumbers;
     }
     return [];
 }
-function checkType(searchingFor) {
+function findType(searchingFor) {
     let cardNumbers = [];
     if (searchingFor <= 4) {
         for (let i = 0; i < 13; i++) {
@@ -61,7 +55,7 @@ function checkType(searchingFor) {
     }
     return [];
 }
-function checkColor(searchingFor) {
+function findColor(searchingFor) {
     let cardNumbers = [];
     if (searchingFor == 1 || searchingFor == 2) {
         for (let i = 0; i < cards.length / 2; i++) {
@@ -77,10 +71,19 @@ function checkColor(searchingFor) {
     }
     return [];
 }
-checkAttr(0, hand);
-checkAttr(1, hand);
-checkAttr(2, hand);
-checkAttr(0, dealer);
-checkAttr(1, dealer);
-checkAttr(2, dealer);
+function checkAttr(findArray, checkingArray) {
+    for (let i = 0; i < findArray.length; i++) {
+        for (let j = 0; j < checkingArray.length; j++) {
+            if (checkingArray[j] == findArray[i]) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+if (checkAttr(findAttr(0), hand) == true || checkAttr(findAttr(0), dealerActive) == true ||
+    checkAttr(findAttr(1), hand) == true || checkAttr(findAttr(1), dealerActive) == true ||
+    checkAttr(findAttr(2), hand) == true || checkAttr(findAttr(2), dealerActive) == true) {
+    value.textContent = 'High Card';
+}
 //# sourceMappingURL=script.js.map
