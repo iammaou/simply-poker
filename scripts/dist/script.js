@@ -31,9 +31,7 @@ function findType(amp) {
         }
         return cardNumbers;
     }
-    else {
-        return 0;
-    }
+    return [];
 }
 function findColor(amp) {
     let cardNumbers = [];
@@ -49,9 +47,7 @@ function findColor(amp) {
         }
         return cardNumbers;
     }
-    else {
-        return 0;
-    }
+    return [];
 }
 let cardsCopy = [...cards];
 function randomCard() {
@@ -74,8 +70,9 @@ d4.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[3]}.png`;
 d5.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[4]}.png`;
 h1.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${hand[0]}.png`;
 h2.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${hand[1]}.png`;
-let a = findAttr(1);
-if (a.includes(2)) {
-    value.textContent = 'High Card';
+for (let i = 0; i < 3; i++) {
+    if (findAttr(i).includes(hand[0 || 1]) || findAttr(i).includes(dealer[0 || 1 || 2])) {
+        value.textContent = 'High Card';
+    }
 }
 //# sourceMappingURL=script.js.map

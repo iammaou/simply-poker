@@ -19,60 +19,6 @@ const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19
 const start = [1, 14, 27, 40];
 let cardValue:Number = 0;
 
-function findAttr(amp:number){ //returns: kings, queens, jacks, 10-2 and aces
-    let cardNumbers = [];
-    
-    if(amp<=12){
-        for(let i=0; i<start.length; i++){
-            cardNumbers[i] = start[i] + amp;
-        }
-        return cardNumbers;
-    } 
-    return [];
-}
-
-function findType(amp:number){ //returns: spades, hearts, clubs, diamonds
-    let cardNumbers = [];
-
-    if(amp<=4){
-        for(let i=0; i<13; i++){
-            cardNumbers[i] = cards[i+(amp*13)];
-        }
-        return cardNumbers;
-    } 
-    return [];
-}
-
-function findColor(amp:number){ //returns: black, red
-    let cardNumbers = [];
-    
-    if(amp==1 || amp==2){
-        for(let i=0; i<cards.length/2; i++){
-            if(i==cards.length/4){
-                amp+=1;
-                cardNumbers[i] = cards[i+((amp-1)*13)];
-            } else{
-                cardNumbers[i] = cards[i+((amp-1)*13)];
-            }
-        }
-        return cardNumbers;
-    }
-    return [];
-}
-
-let cardsCopy = [...cards];
-
-function randomCard(){
-let n = Math.trunc(Math.round(Math.random() * 52));	
-
-if(cardsCopy[n] != 0){
-    cardsCopy[n] = 0;
-    return cards[n];
-} else{
-    return randomCard();
-}	
-}
-
 let hand = [randomCard(),randomCard()];
 let dealer = [randomCard(),randomCard(),randomCard(),randomCard(),randomCard()];
 let opponent = [randomCard(), randomCard()];
@@ -89,6 +35,62 @@ h2.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${hand[1]}.png`;
 // o1.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${opponent[0]}.png`;
 // o2.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${opponent[1]}.png`;
 
-if(findAttr(1).includes(2)){
-    value.textContent = 'High Card';
+let cardsCopy = [...cards];
+
+function randomCard(){
+    let n = Math.trunc(Math.round(Math.random() * 52));	
+    
+    if(cardsCopy[n] != 0){
+        cardsCopy[n] = 0;
+        return cards[n];
+    } else{
+        return randomCard();
+    }	
+}
+
+function findAttr(searchingFor:number){ //returns: kings, queens, jacks, 10-2 and aces
+    let cardNumbers = [];
+    
+    if(searchingFor<=12){
+        for(let i=0; i<start.length; i++){
+            cardNumbers[i] = start[i] + searchingFor;
+        }
+        return cardNumbers;
+    } 
+    return [];
+}
+
+function findType(searchingFor:number){ //returns: spades, hearts, clubs, diamonds
+    let cardNumbers = [];
+
+    if(searchingFor<=4){
+        for(let i=0; i<13; i++){
+            cardNumbers[i] = cards[i+(searchingFor*13)];
+        }
+        return cardNumbers;
+    } 
+    return [];
+}
+
+function findColor(searchingFor:number){ //returns: black, red
+    let cardNumbers = [];
+    
+    if(searchingFor==1 || searchingFor==2){
+        for(let i=0; i<cards.length/2; i++){
+            if(i==cards.length/4){
+                searchingFor+=1;
+                cardNumbers[i] = cards[i+((searchingFor-1)*13)];
+            } else{
+                cardNumbers[i] = cards[i+((searchingFor-1)*13)];
+            }
+        }
+        return cardNumbers;
+    }
+    return [];
+}
+
+for(let i=0; i<3; i++){
+    if(findAttr(i).includes(hand[0 || 1]) || findAttr(i).includes(dealer[0 || 1 || 2])){
+        value.textContent = 'High Card';
+    }
 }
