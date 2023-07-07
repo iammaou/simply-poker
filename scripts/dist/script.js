@@ -13,42 +13,6 @@ const value = document.querySelector('.personalValue');
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52];
 const start = [1, 14, 27, 40];
 let cardValue = 0;
-function findAttr(amp) {
-    let cardNumbers = [];
-    if (amp <= 12) {
-        for (let i = 0; i < start.length; i++) {
-            cardNumbers[i] = start[i] + amp;
-        }
-        return cardNumbers;
-    }
-    return [];
-}
-function findType(amp) {
-    let cardNumbers = [];
-    if (amp <= 4) {
-        for (let i = 0; i < 13; i++) {
-            cardNumbers[i] = cards[i + (amp * 13)];
-        }
-        return cardNumbers;
-    }
-    return [];
-}
-function findColor(amp) {
-    let cardNumbers = [];
-    if (amp == 1 || amp == 2) {
-        for (let i = 0; i < cards.length / 2; i++) {
-            if (i == cards.length / 4) {
-                amp += 1;
-                cardNumbers[i] = cards[i + ((amp - 1) * 13)];
-            }
-            else {
-                cardNumbers[i] = cards[i + ((amp - 1) * 13)];
-            }
-        }
-        return cardNumbers;
-    }
-    return [];
-}
 let cardsCopy = [...cards];
 function randomCard() {
     let n = Math.trunc(Math.round(Math.random() * 52));
@@ -70,9 +34,53 @@ d4.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[3]}.png`;
 d5.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[4]}.png`;
 h1.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${hand[0]}.png`;
 h2.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${hand[1]}.png`;
-for (let i = 0; i < 3; i++) {
-    if (findAttr(i).includes(hand[0 || 1]) || findAttr(i).includes(dealer[0 || 1 || 2])) {
-        value.textContent = 'High Card';
+function checkAttr(searchingFor, array) {
+    let cardNumbers = [];
+    if (searchingFor <= 12) {
+        for (let i = 0; i < start.length; i++) {
+            cardNumbers[i] = start[i] + searchingFor;
+        }
+        for (let i = 0; i < cardNumbers.length; i++) {
+            for (let j = 0; j < array.length; j++) {
+                if (cardNumbers[i] === array[j]) {
+                    return true;
+                }
+                return false;
+            }
+        }
     }
+    return [];
 }
+function checkType(searchingFor) {
+    let cardNumbers = [];
+    if (searchingFor <= 4) {
+        for (let i = 0; i < 13; i++) {
+            cardNumbers[i] = cards[i + (searchingFor * 13)];
+        }
+        return cardNumbers;
+    }
+    return [];
+}
+function checkColor(searchingFor) {
+    let cardNumbers = [];
+    if (searchingFor == 1 || searchingFor == 2) {
+        for (let i = 0; i < cards.length / 2; i++) {
+            if (i == cards.length / 4) {
+                searchingFor += 1;
+                cardNumbers[i] = cards[i + ((searchingFor - 1) * 13)];
+            }
+            else {
+                cardNumbers[i] = cards[i + ((searchingFor - 1) * 13)];
+            }
+        }
+        return cardNumbers;
+    }
+    return [];
+}
+checkAttr(0, hand);
+checkAttr(1, hand);
+checkAttr(2, hand);
+checkAttr(0, dealer);
+checkAttr(1, dealer);
+checkAttr(2, dealer);
 //# sourceMappingURL=script.js.map
