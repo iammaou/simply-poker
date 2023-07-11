@@ -17,8 +17,8 @@ const value:any = document.querySelector('.personalValue');
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52];
 const start = [1, 14, 27, 40];
-let cardValue:Number = 0;
 
+let cardValue:Number = 0;
 let cardsCopy = [...cards];
 
 function randomCard(){
@@ -31,23 +31,6 @@ function randomCard(){
         return randomCard();
     }	
 }
-
-let hand = [randomCard(),randomCard()];
-let dealer = [randomCard(),randomCard(),randomCard(),randomCard(),randomCard()];
-let dealerActive = [dealer[0], dealer[1], dealer[2]];
-let opponent = [randomCard(), randomCard()];
-
-d1.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[0]}.png`;
-d2.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[1]}.png`;
-d3.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[2]}.png`;
-d4.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[3]}.png`;
-d5.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[4]}.png`;
-
-h1.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${hand[0]}.png`;
-h2.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${hand[1]}.png`;
-
-// o1.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${opponent[0]}.png`;
-// o2.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${opponent[1]}.png`;
 
 function findAttr(searchingFor:number){ //returns: kings, queens, jacks, 10-2 and aces
     let cardNumbers = [];
@@ -90,8 +73,8 @@ function findColor(searchingFor:number){ //returns: black, red
     return [];
 }
 
-function checkAttr(findArray:number[], checkingArray:number[]){
-    for(let i=0;i<findArray.length;i++){ //checks if the array we put in has the cards we found beforehand and if it does imidiatly return true
+function checkHighCard(findArray:number[], checkingArray:number[]){
+    for(let i=0;i<findArray.length;i++){
         for(let j=0;j<checkingArray.length;j++){
             if(checkingArray[j]==findArray[i]){
                 return true;
@@ -101,9 +84,92 @@ function checkAttr(findArray:number[], checkingArray:number[]){
     return false;
 }
 
-if( checkAttr(findAttr(0), hand)==true || checkAttr(findAttr(0), dealerActive)==true ||
-    checkAttr(findAttr(1), hand)==true || checkAttr(findAttr(1), dealerActive)==true ||
-    checkAttr(findAttr(2), hand)==true || checkAttr(findAttr(2), dealerActive)==true
+function arrayConfig(theArray:number[]){
+    for(let i=0; i<theArray.length; i++){
+        for(;theArray[i]>13;){
+            theArray[i]=theArray[i]-13;
+        }
+    }
+
+    return theArray;
+}
+
+function checkPair(handArray:number[], dealerArray:number[]){
+    let handArrayCopy = [...arrayConfig(handArray)];
+    let dealerArrayCopy = [...arrayConfig(dealerArray)];
+
+    for(let i=0;i<dealerArrayCopy.length;i++){
+        for(let j=0; j<handArrayCopy.length; j++){
+            if(dealerArrayCopy[i]==handArrayCopy[j]){
+                return true;
+            }
+        }
+    }
+
+    if(handArrayCopy[0]==handArrayCopy[1]){
+        return true;
+    }
+
+    for(let i=0;i<dealerArrayCopy.length;i++){
+        for(let j=0; j<dealerArrayCopy.length; j++){
+            if(dealerArrayCopy[i]==dealerArrayCopy[j]){
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+function checkTwoPair(handArray:number[], dealerArray:number[]){
+    let handArrayCopy = [...handArray];
+    let dealerArrayCopy = [...dealerArray];
+
+    for(let i=0; i<handArrayCopy.length; i++){
+        for(;handArrayCopy[i]>13;){
+            handArrayCopy[i]=handArrayCopy[i]-13;
+        }
+    }
+    for(let i=0; i<dealerArrayCopy.length; i++){
+        for(;dealerArrayCopy[i]>13;){
+            dealerArrayCopy[i]=dealerArrayCopy[i]-13;
+        }
+    }
+
+    for(let i=0; i<dealerArrayCopy.length;i++){
+        for(let j=0; j<handArrayCopy.length; j++){
+            if(dealerArrayCopy[i]==handArrayCopy[j]){
+                
+            }
+        }
+    }
+
+    return false;
+}
+
+let hand = [randomCard(),randomCard()];
+let dealer = [randomCard(),randomCard(),randomCard(),randomCard(),randomCard()];
+let dealerActive = [dealer[0], dealer[1], dealer[2]];
+let opponent = [randomCard(), randomCard()];
+
+d1.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[0]}.png`;
+d2.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[1]}.png`;
+d3.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[2]}.png`;
+d4.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[3]}.png`;
+d5.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[4]}.png`;
+
+h1.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${hand[0]}.png`;
+h2.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${hand[1]}.png`;
+
+// o1.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${opponent[0]}.png`;
+// o2.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${opponent[1]}.png`;
+
+if( checkHighCard(findAttr(0), hand) || checkHighCard(findAttr(0), dealerActive) ||
+    checkHighCard(findAttr(1), hand) || checkHighCard(findAttr(1), dealerActive) ||
+    checkHighCard(findAttr(2), hand) || checkHighCard(findAttr(2), dealerActive)
 ){
-    value.textContent = 'High Card';
+    value.textContent = "High Card";
+} 
+if(checkPair(hand, dealerActive)){
+    value.textContent = "Pair";
 }

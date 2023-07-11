@@ -24,17 +24,6 @@ function randomCard() {
         return randomCard();
     }
 }
-let hand = [randomCard(), randomCard()];
-let dealer = [randomCard(), randomCard(), randomCard(), randomCard(), randomCard()];
-let dealerActive = [dealer[0], dealer[1], dealer[2]];
-let opponent = [randomCard(), randomCard()];
-d1.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[0]}.png`;
-d2.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[1]}.png`;
-d3.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[2]}.png`;
-d4.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[3]}.png`;
-d5.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[4]}.png`;
-h1.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${hand[0]}.png`;
-h2.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${hand[1]}.png`;
 function findAttr(searchingFor) {
     let cardNumbers = [];
     if (searchingFor <= 12) {
@@ -71,7 +60,7 @@ function findColor(searchingFor) {
     }
     return [];
 }
-function checkAttr(findArray, checkingArray) {
+function checkHighCard(findArray, checkingArray) {
     for (let i = 0; i < findArray.length; i++) {
         for (let j = 0; j < checkingArray.length; j++) {
             if (checkingArray[j] == findArray[i]) {
@@ -81,9 +70,67 @@ function checkAttr(findArray, checkingArray) {
     }
     return false;
 }
-if (checkAttr(findAttr(0), hand) == true || checkAttr(findAttr(0), dealerActive) == true ||
-    checkAttr(findAttr(1), hand) == true || checkAttr(findAttr(1), dealerActive) == true ||
-    checkAttr(findAttr(2), hand) == true || checkAttr(findAttr(2), dealerActive) == true) {
-    value.textContent = 'High Card';
+function arrayConfig(theArray) {
+    for (let i = 0; i < theArray.length; i++) {
+        for (; theArray[i] > 13;) {
+            theArray[i] = theArray[i] - 13;
+        }
+    }
+    return theArray;
+}
+function checkPair(handArray, dealerArray) {
+    let handArrayCopy = [...arrayConfig(handArray)];
+    let dealerArrayCopy = [...arrayConfig(dealerArray)];
+    if (handArrayCopy[0] == handArrayCopy[1]) {
+        return true;
+    }
+    for (let i = 0; i < dealerArrayCopy.length; i++) {
+        for (let j = 0; j < dealerArrayCopy.length; j++) {
+            if (dealerArrayCopy[i] == dealerArrayCopy[j]) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+function checkTwoPair(handArray, dealerArray) {
+    let handArrayCopy = [...handArray];
+    let dealerArrayCopy = [...dealerArray];
+    for (let i = 0; i < handArrayCopy.length; i++) {
+        for (; handArrayCopy[i] > 13;) {
+            handArrayCopy[i] = handArrayCopy[i] - 13;
+        }
+    }
+    for (let i = 0; i < dealerArrayCopy.length; i++) {
+        for (; dealerArrayCopy[i] > 13;) {
+            dealerArrayCopy[i] = dealerArrayCopy[i] - 13;
+        }
+    }
+    for (let i = 0; i < dealerArrayCopy.length; i++) {
+        for (let j = 0; j < handArrayCopy.length; j++) {
+            if (dealerArrayCopy[i] == handArrayCopy[j]) {
+            }
+        }
+    }
+    return false;
+}
+let hand = [randomCard(), randomCard()];
+let dealer = [randomCard(), randomCard(), randomCard(), randomCard(), randomCard()];
+let dealerActive = [dealer[0], dealer[1], dealer[2]];
+let opponent = [randomCard(), randomCard()];
+d1.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[0]}.png`;
+d2.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[1]}.png`;
+d3.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[2]}.png`;
+d4.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[3]}.png`;
+d5.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[4]}.png`;
+h1.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${hand[0]}.png`;
+h2.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${hand[1]}.png`;
+if (checkHighCard(findAttr(0), hand) || checkHighCard(findAttr(0), dealerActive) ||
+    checkHighCard(findAttr(1), hand) || checkHighCard(findAttr(1), dealerActive) ||
+    checkHighCard(findAttr(2), hand) || checkHighCard(findAttr(2), dealerActive)) {
+    value.textContent = "High Card";
+}
+if (checkPair(hand, dealerActive)) {
+    value.textContent = "Pair";
 }
 //# sourceMappingURL=script.js.map
