@@ -24,12 +24,10 @@ let cardsCopy = [...cards];
 function randomCard(){
     let n = Math.trunc(Math.round(Math.random() * 52));	
     
-    if(cardsCopy[n] != 0){
+    if(n!=undefined && cardsCopy[n] != 0){
         cardsCopy[n] = 0;
         return cards[n];
-    } else{
-        return randomCard();
-    }	
+    } else return randomCard();
 }
 
 function findAttr(searchingFor:number){ //returns: kings, queens, jacks, 10-2 and aces
@@ -95,8 +93,10 @@ function arrayConfig(theArray:number[]){
 }
 
 function checkPair(handArray:number[], dealerArray:number[]){
-    let handArrayCopy = [...arrayConfig(handArray)];
-    let dealerArrayCopy = [...arrayConfig(dealerArray)];
+    let handArrayCopy = [...handArray];
+    let dealerArrayCopy = [...dealerArray];
+    handArrayCopy = arrayConfig(dealerArrayCopy);
+    dealerArrayCopy = arrayConfig(dealerArrayCopy);
 
     for(let i=0;i<dealerArrayCopy.length;i++){
         for(let j=0; j<handArrayCopy.length; j++){
@@ -110,13 +110,13 @@ function checkPair(handArray:number[], dealerArray:number[]){
         return true;
     }
 
-    for(let i=0;i<dealerArrayCopy.length;i++){
-        for(let j=0; j<dealerArrayCopy.length; j++){
-            if(dealerArrayCopy[i]==dealerArrayCopy[j]){
-                return true;
-            }
-        }
-    }
+    // for(let i=0;i<dealerArrayCopy.length;i++){
+    //     for(let j=i+1; j<dealerArrayCopy.length;j++){
+    //         if(dealerArrayCopy[i]==dealerArrayCopy[j]){
+    //             return true;
+    //         }
+    //     }
+    // }
 
     return false;
 }
@@ -148,15 +148,14 @@ function checkTwoPair(handArray:number[], dealerArray:number[]){
 }
 
 let hand = [randomCard(),randomCard()];
-let dealer = [randomCard(),randomCard(),randomCard(),randomCard(),randomCard()];
-let dealerActive = [dealer[0], dealer[1], dealer[2]];
+let dealer = [randomCard(),randomCard(),randomCard()];
 let opponent = [randomCard(), randomCard()];
 
 d1.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[0]}.png`;
 d2.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[1]}.png`;
 d3.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[2]}.png`;
-d4.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[3]}.png`;
-d5.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[4]}.png`;
+// d4.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[3]}.png`;
+// d5.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${dealer[4]}.png`;
 
 h1.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${hand[0]}.png`;
 h2.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${hand[1]}.png`;
@@ -164,12 +163,12 @@ h2.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${hand[1]}.png`;
 // o1.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${opponent[0]}.png`;
 // o2.src = `../../assets/PNG-cards-1.3/PNG-cards-1.3/${opponent[1]}.png`;
 
-if( checkHighCard(findAttr(0), hand) || checkHighCard(findAttr(0), dealerActive) ||
-    checkHighCard(findAttr(1), hand) || checkHighCard(findAttr(1), dealerActive) ||
-    checkHighCard(findAttr(2), hand) || checkHighCard(findAttr(2), dealerActive)
+if( checkHighCard(findAttr(0), hand) || checkHighCard(findAttr(0), dealer) ||
+    checkHighCard(findAttr(1), hand) || checkHighCard(findAttr(1), dealer) ||
+    checkHighCard(findAttr(2), hand) || checkHighCard(findAttr(2), dealer)
 ){
     value.textContent = "High Card";
 } 
-if(checkPair(hand, dealerActive)){
+if(checkPair(hand, dealer)){
     value.textContent = "Pair";
 }
