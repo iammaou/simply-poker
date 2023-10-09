@@ -2,7 +2,9 @@ import './App.css'
 
 function App() {
   return (
-    <div>main app</div>
+    <div className='flex w-full bg-red-600'>
+      <h1 className='text-red-900'>Simply Poker</h1>
+    </div>
   )
 }
 
